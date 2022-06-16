@@ -1,1 +1,1 @@
-# su22-cs411-team029-SQLWarriors
+# team029-SQLWarriors
