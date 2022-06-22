@@ -8,7 +8,7 @@
 | TeamName    |       SQLWarriors      |
 | Captain     |       Parul Sharma     |
 | Captain     |  psharm42@illinois.edu |
-| Member1     |       Quiling Fan      | 
+| Member1     |       Qiuling Fan      | 
 | Member1     |  qiuling2@illinois.edu |
 | Member2     |   Divya Sathiyamoorthy |
 | Member2     |  divyas5@illinois.edu  |
