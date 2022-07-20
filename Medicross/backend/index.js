@@ -30,12 +30,12 @@ db.connect(function(err) {
 //     });
 //   });
 
-// app.get('/', (require, response) => {
-//     const sqlInsert = "INSERT INTO `Patient`(`patientId`, `firstName`, `lastName`, `sex`, `birthDate`, `address`, `phone`, `notes`, `chargesDue`, `insProvider`, `insHolder`, `insNumber`, `email`, `password`) VALUES (1001, 'Paul', 'Sherman', 'F', '2000-07-19', '3101 Birmingham Dr, Glen Carbon, IL 62025', '630-994-0342', NULL, 200.00, 'Anthem', 'Paul Sherman', 3456789, 'paul.sherman@msn.com', 'paulsher2345');";
-//     db.query(sqlInsert, (err, result) => {
-//         response.send("Hello world!!!");
-//     })
-// })
+app.get('/', (require, response) => {
+    const sqlInsert = "INSERT INTO `Patient`(`patientId`, `firstName`, `lastName`, `sex`, `birthDate`, `address`, `phone`, `notes`, `chargesDue`, `insProvider`, `insHolder`, `insNumber`, `email`, `password`) VALUES (1001, 'Paul', 'Sherman', 'F', '2000-07-19', '3101 Birmingham Dr, Glen Carbon, IL 62025', '630-994-0342', NULL, 200.00, 'Anthem', 'Paul Sherman', 3456789, 'paul.sherman@msn.com', 'paulsher2345');";
+    db.query(sqlInsert, (err, result) => {
+        response.send("Hello world!!!");
+    })
+})
 
 // app.use(cors());
 // app.use(bodyParser.urlencoded({ extended: true }));

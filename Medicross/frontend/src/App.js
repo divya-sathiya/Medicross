@@ -1,6 +1,7 @@
-import './App.css';
-import React, {useState, useEffect} from "react";
-import Axios from 'axios';
+import "./App.css";
+import React, { useState, useEffect } from "react";
+import Axios from "axios";
+import Login from "./components/Login.js";
 
 // ORIGINAL -----------------------------------
 // function App() {
@@ -15,12 +16,12 @@ import Axios from 'axios';
 //     })
 //   },[])
 
-//   const submitReview = () => { 
+//   const submitReview = () => {
 //     Axios.post('http://localhost:3002/api/insert', {
 //       movieName: movieName,
 //       movieReview: Review
 //     });
-    
+
 //     setMovieReviewList([
 //       ...movieReviewList,
 //       {
@@ -55,7 +56,7 @@ import Axios from 'axios';
 //         <input type="text" name="Review" onChange={(e) => {
 //           setReview(e.target.value)
 //         }}/>
-        
+
 //         <button onClick={submitReview}> Submit</button>
 
 //         {movieReviewList.map((val) => {
@@ -72,13 +73,12 @@ import Axios from 'axios';
 //               }}> Update</button>
 //               </div>
 //           );
-          
+
 //           ;
 //         })}
-        
 
 //       </div>
-      
+
 //     </div>
 //   );
 // }
@@ -86,11 +86,11 @@ import Axios from 'axios';
 // export default App;
 // ORIGINAL -----------------------------------
 
-function App(){
+function App() {
   return (
-  <div className ="App">
-      <h1>CRUD APPLICATIONS</h1>
-  </div>
+    <main className="App">
+      <Login />
+    </main>
   );
 }
 
