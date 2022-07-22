@@ -66,16 +66,6 @@ app.post("/api/login", (require, response) => {
   });
 });
 
-// app.post("/api/login", (require, response) => {
-//   const email = require.body.email;
-//   const password = require.body.password;
-
-//   const sqlQuery = "SELECT * FROM Patient WHERE email = ? AND password = ?";
-//   db.query(sqlQuery, [email, password], (err, result) => {
-//     if (result.length == 0) response.send("Incorrect Email/Password");
-//     else response.send("login successful");
-//   });
-// });
 // AXIOS DELETE EXAMPLE
 // app.delete("/api/delete/:movieName", (require, response) => {
 //     const movieName = require.params.movieName;
