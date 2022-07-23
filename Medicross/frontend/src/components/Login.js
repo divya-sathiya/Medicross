@@ -1,5 +1,5 @@
 import React, { useRef, useState, useEffect } from "react";
-import "./Login.css";
+import "./LoginRegister.css";
 import Axios from "axios";
 
 const Login = () => {
@@ -35,7 +35,7 @@ const Login = () => {
       if (!err.response) {
         setErrMsg('No Server Response');
       } else if (err.response.status === 400){
-        setErrMsg('Missing username or password');
+        setErrMsg('Missing email or password');
       } else if (err.response.status === 401){
         setErrMsg('Unauthorized');
       } else {

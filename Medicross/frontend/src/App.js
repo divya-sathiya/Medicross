@@ -1,7 +1,9 @@
 import "./App.css";
-import React, { useState, useEffect } from "react";
-import Axios from "axios";
-import Login from "./components/Login.js";
+//import React, { useState, useEffect } from "react";
+import React from "react";
+//import Axios from "axios";
+//import Login from "./components/Login.js";
+import SignUp from "./components/SignUp.js"
 
 // ORIGINAL -----------------------------------
 // function App() {
@@ -89,7 +91,7 @@ import Login from "./components/Login.js";
 function App() {
   return (
     <main className="App">
-      <Login />
+      <SignUp />
     </main>
   );
 }

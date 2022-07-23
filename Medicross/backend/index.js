@@ -58,11 +58,27 @@ app.use(express.json());
 app.post("/api/login", (require, response) => {
   const email = require.body.email;
   const password = require.body.password;
-
   const sqlQuery = "SELECT * FROM Patient WHERE email = ? AND password = ?";
   db.query(sqlQuery, [email, password], (err, result) => {
     if (result.length == 0) response.sendStatus(401);
     else response.send("login successful");
+  });
+});
+
+// REGISTER
+app.post("/api/register", (require, response) => {
+  const email = require.body.email;
+  const password = require.body.password;
+  const sqlSearch = "SELECT * FROM Patient WHERE email = ?";
+  db.query(sqlSearch, [email], (err, result) => {
+    if (result.length > 0) {
+      response.sendStatus(409);
+    } else {
+      const sqlQuery = "INSERT INTO `Patient`(`email`, `password`) VALUES (?, ?)";
+      db.query(sqlQuery, [email, password], (err, result) => {
+        response.send("registration successful");
+      });
+    }
   });
 });
 
