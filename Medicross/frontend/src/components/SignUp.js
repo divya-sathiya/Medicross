@@ -1,5 +1,7 @@
 import React, { useRef, useState, useEffect } from "react";
 import "./LoginRegister.css";
+import Axios from "axios";
+import axios from "axios";
 
 const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
 
@@ -47,14 +49,33 @@ const SignUp = () => {
         setErrMsg("");
       }
     }
-    
+
     errRef.current.focus();
   }, [password, matchPassword]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     console.log(email, password);
-    setSuccess(true);
+    try {
+      const response = await axios.post("http://localhost:3002/api/register", {
+        email: email,
+        password: password,
+      });
+      console.log(JSON.stringify(response.data));
+      setEmail("");
+      setPassword("");
+      setMatchPassword("");
+      setSuccess(true);
+    } catch (err) {
+      if (!err.response) {
+        setErrMsg("No Server Response");
+      } else if (err.response.status === 409) {
+        setErrMsg("Email already exists");
+      } else {
+        setErrMsg("Registration Failed");
+      }
+      errRef.current.focus();
+    }
   };
 
   return (
