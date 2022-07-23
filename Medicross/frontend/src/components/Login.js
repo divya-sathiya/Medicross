@@ -1,5 +1,6 @@
 import React, { useRef, useState, useEffect } from "react";
 import "./Login.css";
+import Axios from "axios";
 
 const Login = () => {
   const userRef = useRef();
@@ -23,9 +24,25 @@ const Login = () => {
   const handleSumbit = async (e) => {
     e.preventDefault();
     console.log(email, password);
+
+    try {
+    const response = await Axios.post(`http://localhost:3002/api/login`, {email: email, password: password});
+    console.log(JSON.stringify(response.data));
     setEmail("");
     setPwd("");
     setSuccess(true);
+    } catch (err) {
+      if (!err.response) {
+        setErrMsg('No Server Response');
+      } else if (err.response.status === 400){
+        setErrMsg('Missing username or password');
+      } else if (err.response.status === 401){
+        setErrMsg('Unauthorized');
+      } else {
+        setErrMsg('Login Failed');
+      }
+      errRef.current.focus();
+    }
   };
 
   return (
