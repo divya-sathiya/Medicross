@@ -36,39 +36,28 @@ app.use(express.json());
 // });
 
 //AQ1
-// app.get("/", (require, response) => {
-//   const sqlInsert =
-//     "SELECT name as doctorName, title FROM Practitioner NATURAL JOIN Insurance WHERE insProvider = (SELECT insProvider FROM Procedures NATURAL JOIN NeedProcedure NATURAL JOIN Patient WHERE name = ? AND patientId = ?) AND LOCATE(title,(SELECT description FROM Procedures WHERE name = ?)) > 0 ORDER BY name LIMIT 15;";
-//   const user = patientId;
-//   const procedureName = req.body.procedureName;
-//   db.query(sqlInsert, [procedureName, user, procedureName], (err, result) => {
-//     if (result.length == 0) response.send("No Doctors Found!");
-//     else response.send(result);
-//   });
-// });
+app.get("/finddoctors", (require, response) => {
+  const sqlInsert =
+    "SELECT name as doctorName, title FROM Practitioner NATURAL JOIN Insurance WHERE insProvider = (SELECT insProvider FROM Procedures NATURAL JOIN NeedProcedure NATURAL JOIN Patient WHERE name = ? AND patientId = ?) AND LOCATE(title,(SELECT description FROM Procedures WHERE name = ?)) > 0 ORDER BY name LIMIT 15;";
+  const user = 1000; //get patientId
+  const procedureName = "Physical Examination"; //type in procedure name "req.body.procedureName"
+  db.query(sqlInsert, [procedureName, user, procedureName], (err, result) => {
+    if (result.length == 0) response.send("No Doctors Found!");
+    else response.send(result);
+  });
+});
 
 //AQ2
-// if(1=1/*query if patient is female*/) {
-//   app.get("/", (require, response) => {
-//     const sqlInsert =
-//       "SELECT name as conditionName, count(patientId) as FemAffected FROM Patient NATURAL JOIN HasCondition NATURAL JOIN Conditions WHERE sex = ‘F’ AND age > ? GROUP BY conditionName ORDER BY FemAffected DESC, avgAge DESC, conditionName LIMIT 15;";
-//     const age = 1; //use querry to get age
-//       db.query(sqlInsert, age, (err, result) => {
-//       if (result.length == 0) response.send("Error!");
-//       else response.send(result);
-//     });
-//   });
-// } else {
-//   app.get("/", (require, response) => {
-//     const sqlInsert =
-//       "SELECT name as conditionName, count(patientId) as FemAffected FROM Patient NATURAL JOIN HasCondition NATURAL JOIN Conditions WHERE sex = ‘M’ AND age > ? GROUP BY conditionName ORDER BY FemAffected DESC, avgAge DESC, conditionName LIMIT 15;";
-//     const age = 1; //use querry to get age
-//       db.query(sqlInsert, age, (err, result) => {
-//       if (result.length == 0) response.send("Error!");
-//       else response.send(result);
-//     });
-//   });
-// }
+app.get("/findrisks", (require, response) => {
+  const sqlInsert =
+    "SELECT name as conditionName, count(patientId) as Affected FROM Patient NATURAL JOIN HasCondition NATURAL JOIN Conditions WHERE sex = ? AND age > ? GROUP BY conditionName ORDER BY FemAffected DESC, avgAge DESC, conditionName LIMIT 15;";
+    const gender = 'F'; //use querry to get gender
+    const age = 1; //use querry to get age
+    db.query(sqlInsert, [gender,age], (err, result) => {
+    if (result.length == 0) response.send("Error!");
+    else response.send(result);
+  });
+}); 
 
 // AXIOS GET EXAMPLE
 // app.get("/api/get", (require, response) => {
