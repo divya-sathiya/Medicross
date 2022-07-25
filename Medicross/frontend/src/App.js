@@ -1,12 +1,11 @@
 import "./App.css";
-//import React, { useState, useEffect } from "react";
-import React from "react";
-//import Axios from "axios";
-//import Login from "./components/Login.js";
-import SignUp from "./components/SignUp.js"
-import Profile from "./pages/Profile/Profile";
+import React, { useState, useEffect } from "react";
+import Login from "./pages/Login/Login.js";
+import SignUp from "./pages/SignUp/SignUp.js";
+import Navbar from "./pages/Navbar/Navbar"
 import Search from "./pages/Search/Search";
-import HealthStats from "./pages/HealthStats/HealthStats";
+import Profile from "./pages/Profile/Profile"
+import { Routes, Route } from "react-router-dom";
 
 // ORIGINAL -----------------------------------
 // function App() {
@@ -93,10 +92,28 @@ import HealthStats from "./pages/HealthStats/HealthStats";
 
 function App() {
   return (
-    <main className="App">
-      <HealthStats />
+      <main className="App">
+      <Routes>
+        <Route exact path= "/" element={< Login />} />
+        <Route exact path= "/Login" element={< Login />} />
+        <Route exact path= "/SignUp" element={< SignUp />} />
+        <Route exact path = "/Profile" element={<Profile />} />
+        <Route exact path = "/Search" element={<Search />}/>
+      </Routes>
     </main>
   );
 }
+
+// const Main = () => {
+  
+//   return (
+//     <Routes>
+//       <Route path="/Home" element={<Home />} />
+//       <Route path="/MyHealth" element={<MyHealth />} />
+//       <Route path="/FindDoctor" element={<FindDoctor />} />
+//       <Route path="/Profile" element={<Profile />} />
+//     </Routes>
+//   );
+// };
 
 export default App;
