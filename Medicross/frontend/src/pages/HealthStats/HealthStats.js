@@ -2,6 +2,7 @@ import React, { useRef, useState, useEffect } from "react";
 import "./HealthStats.css";
 import axios from "axios";
 import TextField from '@mui/material/TextField';
+import {Link} from 'react-router-dom';
 
 const HealthStats = () => {
   const userRef = useRef();
@@ -38,6 +39,9 @@ const HealthStats = () => {
             <TextField
                 disabled={disabledField}
                 value={condition} />
+                <p>
+                <Link to="/Profile"> Go to Profile </Link>
+                </p>
             </section>
         ) : (
             <section>
@@ -46,6 +50,9 @@ const HealthStats = () => {
                         View Common Conditions
                     </button>
                 </form>
+                <p>
+            <Link to="/Profile"> Go to Profile </Link>
+            </p>
             </section>
         )}
     </>

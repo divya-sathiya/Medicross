@@ -2,6 +2,7 @@ import React, { useRef, useState, useEffect } from "react";
 import "./Search.css";
 import axios from "axios";
 import TextField from '@mui/material/TextField';
+import {Link} from 'react-router-dom';
 
 const Search = () => {
   const userRef = useRef();
@@ -52,7 +53,8 @@ const Search = () => {
             <br />
             <TextField
                 disabled={disabledField}
-                value={doctor} />
+                value={doctor} /> <br></br>
+              <Link to="/HealthStats"> Go to HealthStats</Link>
             </section>
         ) : (
             <section>
@@ -71,6 +73,10 @@ const Search = () => {
                         Search
                     </button>
                 </form>
+                <p>
+          {/*<a href="#">Go to Home</a>*/}
+          <Link to="/HealthStats"> Go to HealthStats</Link>
+          </p>
             </section>
         )}
     </>

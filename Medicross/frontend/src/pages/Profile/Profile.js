@@ -67,6 +67,15 @@ const Profile = () => {
     setChange(true);
   };
 
+  const DeleteUser = async (e) => {
+    try {
+      const response = await axios.delete("http://localhost:3002/api/deleteUser", {params: {email: email}});
+      console.log(response);
+    } catch (err) {
+      console.log(errMsg);
+    }
+  };
+
   const saveEdit = async (e) => {
     setDisabledField(true);
     setDisabledSave(true);
@@ -190,7 +199,15 @@ const Profile = () => {
         >
           Save
         </Button>
-
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <Button
+          onClick={DeleteUser}
+          variant="contained"
+          color="primary"
+          disabled={disabledEdit}
+        >
+          Delete
+        </Button>
         <p>
           {/*<a href="#">Go to Home</a>*/}
           <Link to="/Search"> Find A Doctor</Link>

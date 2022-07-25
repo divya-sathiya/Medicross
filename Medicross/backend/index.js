@@ -53,7 +53,7 @@ app.get("/api/finddoctors", (require, response) => {
 //AQ2
 app.get("/api/findrisks", (require, response) => {
   const gender = 'M'; //use querry to get gender
-  const birthdate = '2002-02-28'; //use querry to get age
+  const birthdate = '1949-08-06'; //use querry to get age
   const sqlInsert =
     "SELECT name as conditionName, count(patientId) as Affected FROM Patient NATURAL JOIN HasCondition NATURAL JOIN Conditions WHERE sex = ? AND birthDate < ? GROUP BY conditionName ORDER BY Affected DESC, avg(birthDate) DESC, conditionName LIMIT 1;";
     db.query(sqlInsert, [gender,birthdate], (err, result) => {
@@ -113,7 +113,7 @@ app.post("/api/register", (require, response) => {
 
 // GET PROFILE
 app.get("/api/getProfile", (require, response) => {
-  const patientId = 1000;
+  const patientId = 999;
   const sqlSearch =
     "SELECT email,firstName,lastName,birthDate,sex,address,phone,insProvider,insHolder,insNumber FROM Patient WHERE patientId = ?";
   db.query(sqlSearch, [patientId], (err, result) => {
@@ -124,7 +124,7 @@ app.get("/api/getProfile", (require, response) => {
 
 // EDIT PROFILE
 app.put("/api/editProfile", (require, response) => {
-  const patientId = 1000;
+  const patientId = 999;
   const email = require.body.email;
   const firstName = require.body.firstName;
   const lastName = require.body.lastName;
@@ -160,15 +160,28 @@ app.put("/api/editProfile", (require, response) => {
   );
 });
 
-// Delete User
-app.delete("/api/delete/:userid", (require, response) => {
-    const userid = require.params.userid;
+// //Delete User
+// app.delete("/api/delete/:userid", (require, response) => {
+//     const userid = require.params.userid;
 
-    const sqlDelete = "DELETE FROM 'Patient' WHERE 'patientId' = ?";
-    db.query(sqlDelete, userid, (err, result) => {
-        if (err)
-        console.log(error);
-    })
+//     const sqlDelete = "DELETE FROM 'Patient' WHERE 'patientId' = ?";
+//     db.query(sqlDelete, userid, (err, result) => {
+//         if (err)
+//         console.log(error);
+//     })
+// });
+
+app.delete("/api/deleteUser", (require, response) => {
+  const email = require.query.email; //type in procedure name "req.body.procedureName"
+  //const user = 1; //get patientId
+  console.log("EMAIL" + email);
+  const sqlInsert =
+  "DELETE FROM `Patient` WHERE `email` = ?";
+  db.query(sqlInsert, [email], (err, result) => {
+    //if (result.length == 0) response.send("No Doctors Found!");
+    console.log("THIS IS" + result);
+    response.send(result);
+  });
 });
 
 // AXIOS PUT EXAMPLE

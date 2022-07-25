@@ -5,6 +5,7 @@ import SignUp from "./pages/SignUp/SignUp.js";
 import Navbar from "./pages/Navbar/Navbar"
 import Search from "./pages/Search/Search";
 import Profile from "./pages/Profile/Profile"
+import HealthStats from "./pages/HealthStats/HealthStats"
 import { Routes, Route } from "react-router-dom";
 
 // ORIGINAL -----------------------------------
@@ -99,6 +100,7 @@ function App() {
         <Route exact path= "/SignUp" element={< SignUp />} />
         <Route exact path = "/Profile" element={<Profile />} />
         <Route exact path = "/Search" element={<Search />}/>
+        <Route exact path = "/HealthStats" element={<HealthStats />}/>
       </Routes>
     </main>
   );
