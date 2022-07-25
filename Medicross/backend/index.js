@@ -26,10 +26,11 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.json());
 
 //TESTING QUERY
-app.get("/", (require, response) => {
+app.get("/api/:user", (require, response) => {
   const sqlInsert =
-    "SELECT * FROM Patient WHERE patientId = 1001;";
-  db.query(sqlInsert, (err, result) => {
+    "SELECT * FROM Patient WHERE patientId = ?;";
+  const user = require.params.user;
+  db.query(sqlInsert, user,(err, result) => {
     if (result.length == 0) response.send("User not found!");
     else response.send(result);
   });
@@ -40,7 +41,7 @@ app.get("/api/finddoctors", (require, response) => {
   const sqlInsert =
     "SELECT name as doctorName, title FROM Practitioner NATURAL JOIN Insurance WHERE insProvider = (SELECT insProvider FROM Procedures NATURAL JOIN NeedProcedure NATURAL JOIN Patient WHERE name = ? AND patientId = ?) AND LOCATE(title,(SELECT description FROM Procedures WHERE name = ?)) > 0 ORDER BY name LIMIT 15;";
   const user = 1000; //get patientId
-  const procedureName = req.body.procedureName; //type in procedure name "req.body.procedureName"
+  const procedureName = require.body.procedureName; //type in procedure name "req.body.procedureName"
   db.query(sqlInsert, [procedureName, user, procedureName], (err, result) => {
     if (result.length == 0) response.send("No Doctors Found!");
     else response.send(result);
@@ -156,16 +157,16 @@ app.put("/api/editProfile", (require, response) => {
   );
 });
 
-// AXIOS DELETE EXAMPLE
-// app.delete("/api/delete/:movieName", (require, response) => {
-//     const movieName = require.params.movieName;
+// Delete User
+app.delete("/api/delete/:userid", (require, response) => {
+    const userid = require.params.userid;
 
-//     const sqlDelete = "DELETE FROM `movie_reviews` WHERE `movieName`= ?";
-//     db.query(sqlDelete, movieName, (err, result) => {
-//         if (err)
-//         console.log(error);
-//     })
-// });
+    const sqlDelete = "DELETE FROM 'Patient' WHERE 'patientId' = ?";
+    db.query(sqlDelete, userid, (err, result) => {
+        if (err)
+        console.log(error);
+    })
+});
 
 // AXIOS PUT EXAMPLE
 // app.put("/api/update/", (require, response) => {
