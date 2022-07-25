@@ -1,35 +1,39 @@
-import React, {useState, useEffect} from 'react';
+import React, {useRef, useState, useEffect} from 'react';
 import './Profile.css'
 import axios from 'axios';
 import EditIcon from "@material-ui/icons/Edit";
 import SaveIcon from "@material-ui/icons/Save";
-import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Button from "@mui/material/Button";
 
 const Profile = () => {
-    
+    const userRef = useRef();
+    const errRef = useRef();
+    const [errMsg, setErrMsg] = useState("");
+
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
-    const [age] = useState("");
     const [sex, setSex] = useState("");
-    const [birthDate] = useState("");
+    const [birthDate, setBirthDate] = useState("");
     const [address, setAddress] = useState("");
     const [phone, setPhone] = useState("");
     const [insProvider, setInsProvider] = useState("");
     const [insNumber, setInsNumber] = useState("");
     const [insHolder, setInsHolder] = useState("");
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
+    const [email] = useState("");
     const [user, setUser] = useState({});
+    
 
+   
     useEffect(() => {
-        const user_json = JSON.stringify(user);
-        
-        const parsed_json = JSON.parse(user_json);
-        const getEmail = parsed_json.email
+        axios.get("http://localhost:3002/api/getProfile").then((response) => {
+            setUser(JSON.stringify(response.data));
+        })
+        console.log(user.data);
+        const parsed_json = JSON.parse(user);
         const getFirstName = parsed_json.firstName
         const getLastName = parsed_json.lastName
+        const getBirthDate = parsed_json.birthDate
         const getSex = parsed_json.sex
         const getAddress = parsed_json.address
         const getPhone = parsed_json.phone
@@ -37,14 +41,14 @@ const Profile = () => {
         const getInsHolder = parsed_json.insHolder
         const getInsNumber = parsed_json.insNumber
 
-        if(getEmail != null)
-        setEmail(parsed_json.email)
         if (getFirstName != null)
         setFirstName(parsed_json.firstName)
         if (getLastName != null)
         setLastName(parsed_json.lastName)
         if(getSex != null)
         setSex(parsed_json.sex)
+        if (getBirthDate != null)
+        setBirthDate(parsed_json.birthDate)
         if(getAddress != null)
         setAddress(parsed_json.address)
         if (getPhone != null)
@@ -55,9 +59,8 @@ const Profile = () => {
         setInsHolder(parsed_json.insHolder)
         if (getInsNumber != null)
         setInsNumber(parsed_json.insNumber)
-        setPassword(parsed_json.password)
 
-    },[user]);
+    },[]);
     
     const [disabledField, setDisabledField] = useState(true);
     const [disabledEdit, setDisabledEdit] = useState(false);
@@ -70,11 +73,36 @@ const Profile = () => {
          
     };
 
-    const saveEdit = () => {
+    const saveEdit = async (e) => {
         setDisabledField(true);
         setDisabledSave(true);
-        setDisabledEdit(false); 
-    };
+        setDisabledEdit(false);
+
+        try {
+          const response = await axios.post("http://localhost:3002/api/editProfile", {
+            email: email,
+            firstName: firstName,
+            lastName: lastName,
+            birthDate: birthDate,
+            sex: sex,
+            address: address,
+            phone: phone,
+            insProvider: insProvider,
+            insHolder: insHolder,
+            insNumber: insNumber,
+          });
+          console.log(JSON.stringify(response.data));
+        } catch (err) {
+          if (!err.response) {
+            setErrMsg("No Server Response");
+          } else if (err.response.status === 409) {
+            setErrMsg("Email already exists");
+          } else {
+            setErrMsg("Update Failed");
+          }
+          errRef.current.focus();
+        }
+      };
 
 
     return (
@@ -96,26 +124,13 @@ const Profile = () => {
                 <TextField
                     label="Email"
                     disabled={disabledField}
-                    value={email}
-                    placeholder="Email "
-                    onChange={(e) => setEmail(e.target.value)} />
-                
-                <TextField
-                    className="password"
-                    label="Password"
-                    disabled={disabledField}
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)} />
-            
-                <TextField
-                    label="Age"
-                    disabled={disabledField}
-                    value={age} />
+                    value={email} />
                 
                 <TextField
                     label="Date of Birth"
                     disabled={disabledField}
-                    value={birthDate} />
+                    value={birthDate} 
+                    onChange={(e) => setBirthDate(e.target.value)}/>
 
                 <TextField
                     label="Sex"

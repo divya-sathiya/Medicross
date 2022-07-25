@@ -82,6 +82,36 @@ app.post("/api/register", (require, response) => {
   });
 });
 
+// GET PROFILE
+app.get("/api/getProfile", (require, response) => {
+  const patientId = 1000;
+  const sqlSearch = "SELECT email,firstName,lastName,birthDate,sex,address,phone,insProvider,insHolder,insNumber FROM Patient WHERE patientId = ?";
+  db.query(sqlSearch, [patientId], (err, result) => {
+    response.send(result);
+    console.log(result);
+  });
+});
+
+// EDIT PROFILE
+app.post("/api/editProfile", (require, response) => {
+  const patientId = 1000;
+  const email = require.body.email;
+  const firstName = require.body.firstName;
+  const lastName = require.body.lastName;
+  const birthDate = require.body.birthDate;
+  const sex = require.body.sex;
+  const address = require.body.address;
+  const phone = require.body.phone;
+  const insProvider = require.body.insProvider;
+  const insHolder = require.body.insHolder;
+  const insNumber = require.body.insNumber;
+  
+  const sqlQuery = "UPDATE `Patient` SET `email`=?,`firstName`=?,`lastName`=?,`birthDate`=?,`sex`=?,`address`=?,`phone`=?,`insProvider`=?,`insHolder`=?,`insNumber`=? WHERE `patientId`=?";
+  db.query(sqlQuery, [email, firstName, lastName, birthDate, sex, address, phone, insProvider, insHolder, insNumber, patientId], (err, result) => {
+    response.send("update successful");
+  });
+});
+
 // AXIOS DELETE EXAMPLE
 // app.delete("/api/delete/:movieName", (require, response) => {
 //     const movieName = require.params.movieName;
