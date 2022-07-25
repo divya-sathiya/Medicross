@@ -1,6 +1,9 @@
 import React, { useRef, useState, useEffect } from "react";
-import "./LoginRegister.css";
+import "./Login.css";
 import Axios from "axios";
+import SignUp from "../SignUp/SignUp";
+import { Link} from 'react-router-dom';
+
 
 const Login = () => {
   const userRef = useRef();
@@ -90,8 +93,7 @@ const Login = () => {
             Need an Account?
             <br />
             <span className="line">
-              {/*router link needed*/}
-              <a href="#">Sign Up</a>
+              <Link to= "/SignUp"> Sign Up</Link>
             </span>
           </p>
         </section>

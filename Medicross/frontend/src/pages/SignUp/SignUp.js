@@ -1,7 +1,9 @@
 import React, { useRef, useState, useEffect } from "react";
-import "./LoginRegister.css";
+import "./SignUp.css";
 import Axios from "axios";
 import axios from "axios";
+import { Link} from 'react-router-dom';
+
 
 const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
 
@@ -85,7 +87,7 @@ const SignUp = () => {
           <h1>Success!</h1>
           <br />
           <p>
-            <a href="#">Sign In</a>
+            <Link to= "/"> Sign In</Link>
           </p>
         </section>
       ) : (
@@ -130,8 +132,7 @@ const SignUp = () => {
             Already Registered?
             <br />
             <span className="line">
-              {/*router link needed*/}
-              <a href="#">Sign In</a>
+            <Link to= "/"> Sign In</Link>
             </span>
           </p>
         </section>
