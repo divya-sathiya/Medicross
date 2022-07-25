@@ -1,13 +1,4 @@
 import "./App.css";
-<<<<<<< HEAD
-//import React, { useState, useEffect } from "react";
-import React from "react";
-//import Axios from "axios";
-//import Login from "./components/Login.js";
-import SignUp from "./components/SignUp.js"
-import Profile from "./pages/Profile/Profile";
-import Search from "./pages/Search/Search"
-=======
 import React, { useState, useEffect } from "react";
 import Login from "./pages/Login/Login.js";
 import SignUp from "./pages/SignUp/SignUp.js";
@@ -17,7 +8,6 @@ import MyHealth from "./pages/MyHealth/MyHealth";
 import FindDoctor from "./pages/FindDoctor/FindDoctor";
 import Profile from "./pages/Profile/Profile"
 import { Routes, Route } from "react-router-dom";
->>>>>>> f2521e6e93c1179c0141eef5f9c22d41039728d0
 
 // ORIGINAL -----------------------------------
 // function App() {
