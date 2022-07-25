@@ -1,9 +1,12 @@
 import "./App.css";
 //import React, { useState, useEffect } from "react";
-import React from "react";
+import React, { useState, useEffect } from "react";
 //import Axios from "axios";
-//import Login from "./components/Login.js";
-import SignUp from "./components/SignUp.js"
+import Login from "./pages/Login/Login.js";
+import SignUp from "./pages/SignUp/SignUp.js";
+import Home from "./pages/Home/Home";
+
+import { Route, Routes, useNavigate} from 'react-router-dom';
 
 // ORIGINAL -----------------------------------
 // function App() {
@@ -91,7 +94,10 @@ import SignUp from "./components/SignUp.js"
 function App() {
   return (
     <main className="App">
-      <SignUp />
+      <Routes>
+        <Route exact path= "/" element={< Login />} />
+        <Route exact path= "/SignUp" element={< SignUp />} />
+      </Routes>
     </main>
   );
 }
