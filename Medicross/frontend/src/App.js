@@ -91,9 +91,7 @@ import { Routes, Route } from "react-router-dom";
 // ORIGINAL -----------------------------------
 
 function App() {
-
   return (
-
       <main className="App">
       <Routes>
         <Route exact path= "/" element={< Login />} />
@@ -102,7 +100,6 @@ function App() {
         <Route exact path = "/Profile" element={<Profile />} />
         <Route exact path = "/Search" element={<Search />}/>
       </Routes>
-      
     </main>
   );
 }

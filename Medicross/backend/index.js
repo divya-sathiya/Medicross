@@ -26,10 +26,11 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.json());
 
 //TESTING QUERY
-// app.get("/", (require, response) => {
+// app.get("/api/:user", (require, response) => {
 //   const sqlInsert =
-//     "SELECT * FROM Patient WHERE patientId = 1001;";
-//   db.query(sqlInsert, (err, result) => {
+//     "SELECT * FROM Patient WHERE patientId = ?;";
+//   const user = require.params.user;
+//   db.query(sqlInsert, user,(err, result) => {
 //     if (result.length == 0) response.send("User not found!");
 //     else response.send(result);
 //   });
@@ -37,27 +38,30 @@ app.use(express.json());
 
 //AQ1
 app.get("/api/finddoctors", (require, response) => {
+  const procedureName = require.query.procedure; //type in procedure name "req.body.procedureName"
+  //console.log("THIS IS ENTERED:" + procedureName);
+  const user = 1; //get patientId
   const sqlInsert =
     "SELECT name as doctorName, title FROM Practitioner NATURAL JOIN Insurance WHERE insProvider = (SELECT insProvider FROM Procedures NATURAL JOIN NeedProcedure NATURAL JOIN Patient WHERE name = ? AND patientId = ?) AND LOCATE(title,(SELECT description FROM Procedures WHERE name = ?)) > 0 ORDER BY name LIMIT 1;";
-  const user = 1; //get patientId
-  const procedureName = "Physical Examination"; //type in procedure name "req.body.procedureName"
   db.query(sqlInsert, [procedureName, user, procedureName], (err, result) => {
-    if (result.length == 0) response.send("No Doctors Found!");
-    else response.send(result);
+    //if (result.length == 0) response.send("No Doctors Found!");
+    console.log(result);
+    response.send(result);
   });
 });
 
 //AQ2
-app.get("/findrisks", (require, response) => {
+app.get("/api/findrisks", (require, response) => {
+  const gender = 'M'; //use querry to get gender
+  const birthdate = '2002-02-28'; //use querry to get age
   const sqlInsert =
-    "SELECT name as conditionName, count(patientId) as Affected FROM Patient NATURAL JOIN HasCondition NATURAL JOIN Conditions WHERE sex = ? AND age > ? GROUP BY conditionName ORDER BY FemAffected DESC, avgAge DESC, conditionName LIMIT 15;";
-    const gender = 'F'; //use querry to get gender
-    const age = 1; //use querry to get age
-    db.query(sqlInsert, [gender,age], (err, result) => {
-    if (result.length == 0) response.send("Error!");
-    else response.send(result);
+    "SELECT name as conditionName, count(patientId) as Affected FROM Patient NATURAL JOIN HasCondition NATURAL JOIN Conditions WHERE sex = ? AND birthDate < ? GROUP BY conditionName ORDER BY Affected DESC, avg(birthDate) DESC, conditionName LIMIT 1;";
+    db.query(sqlInsert, [gender,birthdate], (err, result) => {
+    //if (result.length == 0) response.send("Error!");
+    console.log(result);
+    response.send(result);
   });
-}); 
+});
 
 // AXIOS GET EXAMPLE
 // app.get("/api/get", (require, response) => {
@@ -156,16 +160,16 @@ app.put("/api/editProfile", (require, response) => {
   );
 });
 
-// AXIOS DELETE EXAMPLE
-// app.delete("/api/delete/:movieName", (require, response) => {
-//     const movieName = require.params.movieName;
+// Delete User
+app.delete("/api/delete/:userid", (require, response) => {
+    const userid = require.params.userid;
 
-//     const sqlDelete = "DELETE FROM `movie_reviews` WHERE `movieName`= ?";
-//     db.query(sqlDelete, movieName, (err, result) => {
-//         if (err)
-//         console.log(error);
-//     })
-// });
+    const sqlDelete = "DELETE FROM 'Patient' WHERE 'patientId' = ?";
+    db.query(sqlDelete, userid, (err, result) => {
+        if (err)
+        console.log(error);
+    })
+});
 
 // AXIOS PUT EXAMPLE
 // app.put("/api/update/", (require, response) => {

@@ -18,20 +18,19 @@ const Search = () => {
     userRef.current.focus();
   }, []);
 
-  useEffect(() => {
-    console.log(procedure);
-    setProcedure(procedure);
-  }, [procedure]);
+  // useEffect(() => {
+  //   console.log(procedure);
+    
+  // }, [procedure]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.get("http://localhost:3002/api/finddoctors", {
-        procedure: procedure,
-      });
+      console.log(procedure);
+      const response = await axios.get("http://localhost:3002/api/finddoctors", {params: {procedure: procedure}});
       //console.log(JSON.stringify(response.data));
       //setDoctor(JSON.stringify(response.data));
-      console.log(response.data);
+      console.log(response);
       setDoctorAndTitle(response.data[0].doctorName + " " + response.data[0].title);
       setSuccess(true);
     } catch (err) {
@@ -40,7 +39,8 @@ const Search = () => {
       } else {
         setErrMsg("Search Failed");
       }
-      errRef.current.focus();
+      console.log(errMsg);
+      //errRef.current.focus();
     }
   };
 
