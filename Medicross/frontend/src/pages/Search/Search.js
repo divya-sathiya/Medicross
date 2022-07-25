@@ -67,7 +67,6 @@ const Search = () => {
                         onChange={(e) => setProcedure(e.target.value)}
                         required
                     />
-                    
                     <button disabled={!procedure ? true : false}>
                         Search
                     </button>

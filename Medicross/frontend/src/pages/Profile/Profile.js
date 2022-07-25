@@ -5,6 +5,7 @@ import EditIcon from "@material-ui/icons/Edit";
 import SaveIcon from "@material-ui/icons/Save";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
+import {Link} from 'react-router-dom';
 
 const Profile = () => {
   const userRef = useRef();
@@ -55,12 +56,9 @@ const Profile = () => {
   const [disabledEdit, setDisabledEdit] = useState(false);
   const [disabledSave, setDisabledSave] = useState(true);
 
-  if (changeMade === false){
+  if (changeMade === false) {
     getUserInfo();
   }
-  
-
-
 
   const enableEdit = () => {
     setDisabledField(false);
@@ -192,6 +190,11 @@ const Profile = () => {
         >
           Save
         </Button>
+
+        <p>
+          {/*<a href="#">Go to Home</a>*/}
+          <Link to="/Search"> Find A Doctor</Link>
+        </p>
       </div>
     </div>
   );
