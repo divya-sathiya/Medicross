@@ -14,12 +14,10 @@ const HealthStats = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.get("http://localhost:3002/api/findrisks", {
-        condition: condition,
-      });
+      const response = await axios.get("http://localhost:3002/api/findrisks");
       
-      console.log(response.data);
-      setCondition(response.data);
+      console.log(response);
+      setCondition(response.data[0].Affected + " individuals affected by " + response.data[0].conditionName);
       setSuccess(true);
     } catch (err) {
       if (!err.response) {
@@ -27,7 +25,7 @@ const HealthStats = () => {
       } else {
         setErrMsg("Health Stats Failed");
       }
-      errRef.current.focus();
+      //errRef.current.focus();
     }
   };
 
@@ -35,7 +33,7 @@ const HealthStats = () => {
     <>
         {success ? (
             <section>
-            <h1>Conditions</h1>
+            <h1>Recent Common Conditions</h1>
             <br />
             <TextField
                 disabled={disabledField}

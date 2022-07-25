@@ -52,13 +52,14 @@ app.get("/api/finddoctors", (require, response) => {
 
 //AQ2
 app.get("/api/findrisks", (require, response) => {
+  const gender = 'M'; //use querry to get gender
+  const birthdate = '2002-02-28'; //use querry to get age
   const sqlInsert =
-    "SELECT name as conditionName, count(patientId) as Affected FROM Patient NATURAL JOIN HasCondition NATURAL JOIN Conditions WHERE sex = ? AND birthDate < ? GROUP BY conditionName ORDER BY FemAffected DESC, avgAge DESC, conditionName LIMIT 15;";
-    const gender = 'M'; //use querry to get gender
-    const birthdate = '2002-02-28'; //use querry to get age
+    "SELECT name as conditionName, count(patientId) as Affected FROM Patient NATURAL JOIN HasCondition NATURAL JOIN Conditions WHERE sex = ? AND birthDate < ? GROUP BY conditionName ORDER BY Affected DESC, avg(birthDate) DESC, conditionName LIMIT 1;";
     db.query(sqlInsert, [gender,birthdate], (err, result) => {
-    if (result.length == 0) response.send("Error!");
-    else response.send(result);
+    //if (result.length == 0) response.send("Error!");
+    console.log(result);
+    response.send(result);
   });
 });
 
