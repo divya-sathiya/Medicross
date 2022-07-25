@@ -36,7 +36,7 @@ app.get("/", (require, response) => {
 });
 
 //AQ1
-app.get("/finddoctors", (require, response) => {
+app.get("/api/finddoctors", (require, response) => {
   const sqlInsert =
     "SELECT name as doctorName, title FROM Practitioner NATURAL JOIN Insurance WHERE insProvider = (SELECT insProvider FROM Procedures NATURAL JOIN NeedProcedure NATURAL JOIN Patient WHERE name = ? AND patientId = ?) AND LOCATE(title,(SELECT description FROM Procedures WHERE name = ?)) > 0 ORDER BY name LIMIT 15;";
   const user = 1000; //get patientId
@@ -48,7 +48,7 @@ app.get("/finddoctors", (require, response) => {
 });
 
 //AQ2
-app.get("/findrisks", (require, response) => {
+app.get("/api/findrisks", (require, response) => {
   const sqlInsert =
     "SELECT name as conditionName, count(patientId) as Affected FROM Patient NATURAL JOIN HasCondition NATURAL JOIN Conditions WHERE sex = ? AND birthDate < ? GROUP BY conditionName ORDER BY FemAffected DESC, avgAge DESC, conditionName LIMIT 15;";
     const gender = 'M'; //use querry to get gender
@@ -98,12 +98,62 @@ app.post("/api/register", (require, response) => {
     if (result.length > 0) {
       response.sendStatus(409);
     } else {
-      const sqlQuery = "INSERT INTO `Patient`(`email`, `password`) VALUES (?, ?)";
+      const sqlQuery =
+        "INSERT INTO `Patient`(`email`, `password`) VALUES (?, ?)";
       db.query(sqlQuery, [email, password], (err, result) => {
         response.send("registration successful");
       });
     }
   });
+});
+
+// GET PROFILE
+app.get("/api/getProfile", (require, response) => {
+  const patientId = 1000;
+  const sqlSearch =
+    "SELECT email,firstName,lastName,birthDate,sex,address,phone,insProvider,insHolder,insNumber FROM Patient WHERE patientId = ?";
+  db.query(sqlSearch, [patientId], (err, result) => {
+    response.send(result);
+    console.log(result);
+  });
+});
+
+// EDIT PROFILE
+app.put("/api/editProfile", (require, response) => {
+  const patientId = 1000;
+  const email = require.body.email;
+  const firstName = require.body.firstName;
+  const lastName = require.body.lastName;
+  const birthDate = require.body.birthDate;
+  const sex = require.body.sex;
+  const address = require.body.address;
+  const phone = require.body.phone;
+  const insProvider = require.body.insProvider;
+  const insHolder = require.body.insHolder;
+  const insNumber = require.body.insNumber;
+
+  const sqlQuery =
+    "UPDATE `Patient` SET `email`=?,`firstName`=?,`lastName`=?,`birthDate`= ?, `sex`=?,`address`=?,`phone`=?,`insProvider`=?,`insHolder`=?,`insNumber`=? WHERE `patientId`=?";
+  db.query(
+    sqlQuery,
+    [
+      email,
+      firstName,
+      lastName,
+      birthDate,
+      sex,
+      address,
+      phone,
+      insProvider,
+      insHolder,
+      insNumber,
+      patientId,
+    ],
+    (err, result) => {
+      if (err) console.log(err.message);
+      response.send(result);
+    }
+  );
 });
 
 // AXIOS DELETE EXAMPLE
