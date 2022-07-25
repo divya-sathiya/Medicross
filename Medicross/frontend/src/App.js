@@ -5,6 +5,7 @@ import React from "react";
 //import Login from "./components/Login.js";
 import SignUp from "./components/SignUp.js"
 import Profile from "./pages/Profile/Profile";
+import Search from "./pages/Search/Search"
 
 // ORIGINAL -----------------------------------
 // function App() {
@@ -92,7 +93,7 @@ import Profile from "./pages/Profile/Profile";
 function App() {
   return (
     <main className="App">
-      <Profile />
+      <Search />
     </main>
   );
 }

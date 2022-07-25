@@ -9,7 +9,7 @@ const Search = () => {
   const [disabledField, setDisabledField] = useState(true);
 
   const [procedure, setProcedure] = useState("");
-  const [doctor, setDoctor] = useState("");
+  const [doctor, setDoctorAndTitle] = useState("");
   const [errMsg, setErrMsg] = useState("");
   const [success, setSuccess] = useState(false); //for testing purposes only and needs to be replaced with react-router
 
@@ -24,22 +24,24 @@ const Search = () => {
   }, [procedure]);
 
   const handleSubmit = async (e) => {
-    // e.preventDefault();
-    // try {
-    //   const response = await axios.post("http://localhost:3002/api/finddoctors", {
-    //     procedure: procedure,
-    //   });
-    //   console.log(JSON.stringify(response.data));
-    //   setDoctor(JSON.stringify(response.data));
-    //   setSuccess(true);
-    // } catch (err) {
-    //   if (!err.response) {
-    //     setErrMsg("No Server Response");
-    //   } else {
-    //     setErrMsg("Search Failed");
-    //   }
-    //   errRef.current.focus();
-    // }
+    e.preventDefault();
+    try {
+      const response = await axios.get("http://localhost:3002/api/finddoctors", {
+        procedure: procedure,
+      });
+      //console.log(JSON.stringify(response.data));
+      //setDoctor(JSON.stringify(response.data));
+      console.log(response.data);
+      setDoctorAndTitle(response.data[0].doctorName + " " + response.data[0].title);
+      setSuccess(true);
+    } catch (err) {
+      if (!err.response) {
+        setErrMsg("No Server Response");
+      } else {
+        setErrMsg("Search Failed");
+      }
+      errRef.current.focus();
+    }
   };
 
   return (
