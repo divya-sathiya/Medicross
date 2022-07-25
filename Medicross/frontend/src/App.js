@@ -4,6 +4,7 @@ import React from "react";
 //import Axios from "axios";
 //import Login from "./components/Login.js";
 import SignUp from "./components/SignUp.js"
+import Profile from "./pages/Profile/Profile";
 
 // ORIGINAL -----------------------------------
 // function App() {
@@ -91,7 +92,7 @@ import SignUp from "./components/SignUp.js"
 function App() {
   return (
     <main className="App">
-      <SignUp />
+      <Profile />
     </main>
   );
 }
