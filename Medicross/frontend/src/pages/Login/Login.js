@@ -1,6 +1,9 @@
 import React, { useRef, useState, useEffect } from "react";
-import "./LoginRegister.css";
+import "./Login.css";
 import Axios from "axios";
+import SignUp from "../SignUp/SignUp";
+import { Link} from 'react-router-dom';
+
 
 const Login = () => {
   const userRef = useRef();
@@ -64,7 +67,7 @@ const Login = () => {
           >
             {errMsg}
           </p>
-          <h1>MEDICROSS</h1>
+          <h1 className="title" >MEDICROSS</h1>
           <form onSubmit={handleSumbit}>
             <label htmlFor="email">Email:</label>
             <input
@@ -86,12 +89,11 @@ const Login = () => {
             />
             <button>Sign In</button>
           </form>
-          <p>
+          <p style={{textAlign:'center'}}>
             Need an Account?
             <br />
             <span className="line">
-              {/*router link needed*/}
-              <a href="#">Sign Up</a>
+              <Link to= "/SignUp"> Sign Up</Link>
             </span>
           </p>
         </section>
