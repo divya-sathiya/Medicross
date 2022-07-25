@@ -55,7 +55,8 @@ const Login = () => {
           <h1>You are logged in!</h1>
           <br />
           <p>
-            <a href="#">Go to Home</a>
+            {/*<a href="#">Go to Home</a>*/}
+            <Link to= "/Profile"> Go to Profile </Link>
           </p>
         </section>
       ) : (
@@ -67,7 +68,7 @@ const Login = () => {
           >
             {errMsg}
           </p>
-          <h1>MEDICROSS</h1>
+          <h1 className="title" >MEDICROSS</h1>
           <form onSubmit={handleSumbit}>
             <label htmlFor="email">Email:</label>
             <input
@@ -89,7 +90,7 @@ const Login = () => {
             />
             <button>Sign In</button>
           </form>
-          <p>
+          <p style={{textAlign:'center'}}>
             Need an Account?
             <br />
             <span className="line">

@@ -128,7 +128,7 @@ const SignUp = () => {
               Sign Up
             </button>
           </form>
-          <p>
+          <p style={{textAlign:'center'}}>
             Already Registered?
             <br />
             <span className="line">
