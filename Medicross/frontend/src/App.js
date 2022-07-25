@@ -1,13 +1,13 @@
 import "./App.css";
-//import React, { useState, useEffect } from "react";
 import React, { useState, useEffect } from "react";
-//import Axios from "axios";
-
 import Login from "./pages/Login/Login.js";
 import SignUp from "./pages/SignUp/SignUp.js";
+import Navbar from "./pages/Navbar/Navbar"
 import Home from "./pages/Home/Home";
-
-import { Route, Routes, useNavigate} from 'react-router-dom';
+import MyHealth from "./pages/MyHealth/MyHealth";
+import FindDoctor from "./pages/FindDoctor/FindDoctor";
+import Profile from "./pages/Profile/Profile"
+import { Routes, Route } from "react-router-dom";
 
 // ORIGINAL -----------------------------------
 // function App() {
@@ -93,14 +93,32 @@ import { Route, Routes, useNavigate} from 'react-router-dom';
 // ORIGINAL -----------------------------------
 
 function App() {
+
   return (
-    <main className="App">
+
+      <main className="App">
+        <Navbar/>
       <Routes>
         <Route exact path= "/" element={< Login />} />
+        <Route exact path= "/Login" element={< Login />} />
         <Route exact path= "/SignUp" element={< SignUp />} />
       </Routes>
+      <Main/>
     </main>
   );
 }
+
+const Main = () => {
+  
+  return (
+    <Routes>
+      
+      <Route path="/Home" element={<Home />} />
+      <Route path="/MyHealth" element={<MyHealth />} />
+      <Route path="/FindDoctor" element={<FindDoctor />} />
+      <Route path="/Profile" element={<Profile />} />
+    </Routes>
+  );
+};
 
 export default App;
