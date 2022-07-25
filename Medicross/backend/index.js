@@ -109,7 +109,7 @@ app.put("/api/editProfile", (require, response) => {
   const insNumber = require.body.insNumber;
 
   const sqlQuery =
-    "UPDATE `Patient` SET `email`=?,`firstName`=?,`lastName`=?,`birthDate`=?,`sex`=?,`address`=?,`phone`=?,`insProvider`=?,`insHolder`=?,`insNumber`=? WHERE `patientId`=?";
+    "UPDATE `Patient` SET `email`=?,`firstName`=?,`lastName`=?,`birthDate`= ?, `sex`=?,`address`=?,`phone`=?,`insProvider`=?,`insHolder`=?,`insNumber`=? WHERE `patientId`=?";
   db.query(
     sqlQuery,
     [
