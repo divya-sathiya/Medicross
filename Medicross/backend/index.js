@@ -26,25 +26,27 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.json());
 
 //TESTING QUERY
-app.get("/api/:user", (require, response) => {
-  const sqlInsert =
-    "SELECT * FROM Patient WHERE patientId = ?;";
-  const user = require.params.user;
-  db.query(sqlInsert, user,(err, result) => {
-    if (result.length == 0) response.send("User not found!");
-    else response.send(result);
-  });
-});
+// app.get("/api/:user", (require, response) => {
+//   const sqlInsert =
+//     "SELECT * FROM Patient WHERE patientId = ?;";
+//   const user = require.params.user;
+//   db.query(sqlInsert, user,(err, result) => {
+//     if (result.length == 0) response.send("User not found!");
+//     else response.send(result);
+//   });
+// });
 
 //AQ1
 app.get("/api/finddoctors", (require, response) => {
+  const procedureName = require.query.procedure; //type in procedure name "req.body.procedureName"
+  //console.log("THIS IS ENTERED:" + procedureName);
+  const user = 1; //get patientId
   const sqlInsert =
-    "SELECT name as doctorName, title FROM Practitioner NATURAL JOIN Insurance WHERE insProvider = (SELECT insProvider FROM Procedures NATURAL JOIN NeedProcedure NATURAL JOIN Patient WHERE name = ? AND patientId = ?) AND LOCATE(title,(SELECT description FROM Procedures WHERE name = ?)) > 0 ORDER BY name LIMIT 15;";
-  const user = 1000; //get patientId
-  const procedureName = require.body.procedureName; //type in procedure name "req.body.procedureName"
+    "SELECT name as doctorName, title FROM Practitioner NATURAL JOIN Insurance WHERE insProvider = (SELECT insProvider FROM Procedures NATURAL JOIN NeedProcedure NATURAL JOIN Patient WHERE name = ? AND patientId = ?) AND LOCATE(title,(SELECT description FROM Procedures WHERE name = ?)) > 0 ORDER BY name LIMIT 1;";
   db.query(sqlInsert, [procedureName, user, procedureName], (err, result) => {
-    if (result.length == 0) response.send("No Doctors Found!");
-    else response.send(result);
+    //if (result.length == 0) response.send("No Doctors Found!");
+    console.log(result);
+    response.send(result);
   });
 });
 
