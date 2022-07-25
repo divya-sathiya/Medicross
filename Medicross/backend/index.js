@@ -74,7 +74,8 @@ app.post("/api/register", (require, response) => {
     if (result.length > 0) {
       response.sendStatus(409);
     } else {
-      const sqlQuery = "INSERT INTO `Patient`(`email`, `password`) VALUES (?, ?)";
+      const sqlQuery =
+        "INSERT INTO `Patient`(`email`, `password`) VALUES (?, ?)";
       db.query(sqlQuery, [email, password], (err, result) => {
         response.send("registration successful");
       });
@@ -85,7 +86,8 @@ app.post("/api/register", (require, response) => {
 // GET PROFILE
 app.get("/api/getProfile", (require, response) => {
   const patientId = 1000;
-  const sqlSearch = "SELECT email,firstName,lastName,birthDate,sex,address,phone,insProvider,insHolder,insNumber FROM Patient WHERE patientId = ?";
+  const sqlSearch =
+    "SELECT email,firstName,lastName,birthDate,sex,address,phone,insProvider,insHolder,insNumber FROM Patient WHERE patientId = ?";
   db.query(sqlSearch, [patientId], (err, result) => {
     response.send(result);
     console.log(result);
@@ -93,7 +95,7 @@ app.get("/api/getProfile", (require, response) => {
 });
 
 // EDIT PROFILE
-app.post("/api/editProfile", (require, response) => {
+app.put("/api/editProfile", (require, response) => {
   const patientId = 1000;
   const email = require.body.email;
   const firstName = require.body.firstName;
@@ -105,11 +107,29 @@ app.post("/api/editProfile", (require, response) => {
   const insProvider = require.body.insProvider;
   const insHolder = require.body.insHolder;
   const insNumber = require.body.insNumber;
-  
-  const sqlQuery = "UPDATE `Patient` SET `email`=?,`firstName`=?,`lastName`=?,`birthDate`=?,`sex`=?,`address`=?,`phone`=?,`insProvider`=?,`insHolder`=?,`insNumber`=? WHERE `patientId`=?";
-  db.query(sqlQuery, [email, firstName, lastName, birthDate, sex, address, phone, insProvider, insHolder, insNumber, patientId], (err, result) => {
-    response.send("update successful");
-  });
+
+  const sqlQuery =
+    "UPDATE `Patient` SET `email`=?,`firstName`=?,`lastName`=?,`birthDate`=?,`sex`=?,`address`=?,`phone`=?,`insProvider`=?,`insHolder`=?,`insNumber`=? WHERE `patientId`=?";
+  db.query(
+    sqlQuery,
+    [
+      email,
+      firstName,
+      lastName,
+      birthDate,
+      sex,
+      address,
+      phone,
+      insProvider,
+      insHolder,
+      insNumber,
+      patientId,
+    ],
+    (err, result) => {
+      if (err) console.log(err.message);
+      response.send(result);
+    }
+  );
 });
 
 // AXIOS DELETE EXAMPLE

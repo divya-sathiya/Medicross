@@ -21,6 +21,7 @@ const Profile = () => {
   const [insNumber, setInsNumber] = useState("");
   const [insHolder, setInsHolder] = useState("");
   const [email, setEmail] = useState("");
+  const [changeMade, setChange] = useState(false);
   const [user, setUser] = useState({});
 
   async function getUserInfo() {
@@ -28,45 +29,53 @@ const Profile = () => {
       const response = await axios.get("http://localhost:3002/api/getProfile");
       if (response != undefined) {
         console.log(response.data[0]);
-        if (response.data[0].firstName != null) setFirstName(response.data[0].firstName);
-        if (response.data[0].lastName != null) setLastName(response.data[0].lastName);
+        if (response.data[0].firstName != null)
+          setFirstName(response.data[0].firstName);
+        if (response.data[0].lastName != null)
+          setLastName(response.data[0].lastName);
         if (response.data[0].sex != null) setSex(response.data[0].sex);
-        if (response.data[0].birthDate != null) setBirthDate(response.data[0].birthDate);
-        if (response.data[0].address != null) setAddress(response.data[0].address);
+        if (response.data[0].birthDate != null)
+          setBirthDate(response.data[0].birthDate);
+        if (response.data[0].address != null)
+          setAddress(response.data[0].address);
         if (response.data[0].phone != null) setPhone(response.data[0].phone);
         if (response.data[0].email != null) setEmail(response.data[0].email);
-        if (response.data[0].insProvider != null) setInsProvider(response.data[0].insProvider);
-        if (response.data[0].insHolder != null) setInsHolder(response.data[0].insHolder);
-        if (response.data[0].insNumber != null) setInsNumber(response.data[0].insNumber);
+        if (response.data[0].insProvider != null)
+          setInsProvider(response.data[0].insProvider);
+        if (response.data[0].insHolder != null)
+          setInsHolder(response.data[0].insHolder);
+        if (response.data[0].insNumber != null)
+          setInsNumber(response.data[0].insNumber);
       }
     } catch (err) {
       console.log(err);
     }
   }
-
-  const showEdit = () => {
-    getUserInfo();
-  }
-
   const [disabledField, setDisabledField] = useState(true);
   const [disabledEdit, setDisabledEdit] = useState(false);
   const [disabledSave, setDisabledSave] = useState(true);
 
+  if (changeMade === false){
+    getUserInfo();
+  }
+  
+
+
+
   const enableEdit = () => {
-    showEdit();
     setDisabledField(false);
     setDisabledSave(false);
     setDisabledEdit(true);
+    setChange(true);
   };
 
   const saveEdit = async (e) => {
-    showEdit();
     setDisabledField(true);
     setDisabledSave(true);
     setDisabledEdit(false);
     try {
       console.log("Edited:" + sex);
-      const response = await axios.post(
+      const response = await axios.put(
         "http://localhost:3002/api/editProfile",
         {
           email: email,
@@ -81,14 +90,15 @@ const Profile = () => {
           insNumber: insNumber,
         }
       );
-      console.log(response);
+      console.log("Response" + response.data);
     } catch (err) {
       if (!err.response) {
         setErrMsg("No Server Response");
       } else {
         setErrMsg("Update Failed");
       }
-      errRef.current.focus();
+      console.log(errMsg);
+      //errRef.current.focus(errMsg);
     }
   };
 
