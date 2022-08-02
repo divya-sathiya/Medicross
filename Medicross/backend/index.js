@@ -184,6 +184,19 @@ app.delete("/api/deleteUser", (require, response) => {
   });
 });
 
+//Appointment Check in (Delete appointment)
+app.delete("/api/checkin", (require, response) => {
+  const aptid = require.query.aptid; //type in procedure name "req.body.procedureName"
+  //const user = 1; //get patientId
+  const sqlInsert =
+  "DELETE FROM `Appointment` WHERE `appointmentId` = ?";
+  db.query(sqlInsert, [aptid], (err, result) => {
+    //if (result.length == 0) response.send("No Doctors Found!");
+    console.log("Checked In" + result);
+    response.send(result);
+  });
+});
+
 // Keyword search
 app.get("/api/findCondition", (require, response) => {
  
