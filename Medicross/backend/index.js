@@ -184,6 +184,19 @@ app.delete("/api/deleteUser", (require, response) => {
   });
 });
 
+// Keyword search
+app.get("/api/findCondition", (require, response) => {
+ 
+  const keyword = require.body.keyword;
+ 
+  const sqlInsert =
+    "SELECT name as conditionName, description FROM Conditions WHERE name LIKE '%keyword%' OR description LIKE '%keyword%'"; // might be CONCAT('%', keyword, '%')
+    db.query(sqlInsert, (err, result) => { //might need ?<-keyword replacement
+    if (result.length == 0) response.send("No Conditions Found");
+    else response.send(result);
+  });
+});
+
 // AXIOS PUT EXAMPLE
 // app.put("/api/update/", (require, response) => {
 //     const movieName = require.body.movieName;
