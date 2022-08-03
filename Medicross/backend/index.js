@@ -203,7 +203,7 @@ app.get("/api/findCondition", (require, response) => {
     const { keyword } = req.query;
 
     const results = await pool.query("SELECT name as conditionName, description FROM Conditions WHERE CONCAT(name, ' ', description) ILIKE $1", ['%${keyword}%'])
-    
+
     response.send(results.rows);
   } catch (err) {
     console.error(err.message);
@@ -217,6 +217,8 @@ app.get("/api/findCondition", (require, response) => {
   //   if (result.length == 0) response.send("No Conditions Found");
   //   else response.send(result);
   // });
+  
+  //message for both queries: may need to change concat of the attributes with a space to the OR of a ILIKE comparison on both attributes
 });
 
 // AXIOS PUT EXAMPLE
