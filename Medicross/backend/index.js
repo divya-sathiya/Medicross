@@ -137,15 +137,19 @@ app.get("/api/findrisks", (require, response) => {
 
 // GET CONDITION NAME AND DESCRIPTION; FIND CONDITION PAGE
 app.get("/api/findCondition", (require, response) => {
-  const keyword = 'can';
+  const keyword = require.query.condition;
   const sqlInsert =
-    "SELECT name as conditionName, description FROM Conditions WHERE name LIKE /?/ OR description LIKE /?/"; // might be CONCAT('%', keyword, '%')
-    db.query(sqlInsert, [keyword], (err, result) => {
-    if (result.length == 0) response.send("No Conditions Found");
-    else response.send(result);
-  });
+    "SELECT name as conditionName, description FROM Conditions WHERE name LIKE ? OR description LIKE ?;";
+  db.query(
+    sqlInsert,
+    ["%" + keyword + "%", "%" + keyword + "%"],
+    (err, result) => {
+      //if (result.length == 0) response.send("Error!");
+      console.log(result);
+      response.send(result);
+    }
+  );
 });
-
 
 // AXIOS PUT EXAMPLE
 // app.put("/api/update/", (require, response) => {

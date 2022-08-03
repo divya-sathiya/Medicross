@@ -79,12 +79,15 @@ const Search = () => {
               ))}
             </tbody>
           </table>
-           <p>
-          <Link to="/SearchCondition"> Go to Search Condition</Link>
-          </p> 
           <p>
-          <Link to="/HealthStats"> Go to Health Stats</Link>
-          </p> 
+            <Link to="/Profile"> Go to Profile </Link>
+          </p>
+          <p>
+            <Link to="/SearchCondition"> Go to Search Condition</Link>
+          </p>
+          <p>
+            <Link to="/HealthStats"> Go to Health Stats</Link>
+          </p>
         </section>
       ) : (
         <section>
@@ -102,20 +105,16 @@ const Search = () => {
             <button disabled={!procedure ? true : false}>Search</button>
           </form>
           <p>
-          <Link to="/Profile"> Go to Profile </Link>
-          </p> 
-           <p>
-          <Link to="/SearchCondition"> Go to Search Condition</Link>
-          </p> 
+            <Link to="/Profile"> Go to Profile </Link>
+          </p>
           <p>
-          <Link to="/HealthStats"> Go to Health Stats</Link>
-          </p> 
+            <Link to="/SearchCondition"> Go to Search Condition</Link>
+          </p>
+          <p>
+            <Link to="/HealthStats"> Go to Health Stats</Link>
+          </p>
           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          <Button
-            onClick={handleLogout}
-            variant="contained"
-            color="primary"
-          >
+          <Button onClick={handleLogout} variant="contained" color="primary">
             Logout
           </Button>
         </section>

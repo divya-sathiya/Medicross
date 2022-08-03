@@ -33,7 +33,7 @@ body {
 
 section {
   width: 100%;
-  max-width: 420px;
+  max-width: 1500px;
   min-height: 400px;
   display: flex;
   flex-direction: column;
