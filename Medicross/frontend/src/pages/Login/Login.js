@@ -31,6 +31,9 @@ const Login = () => {
     try {
     const response = await Axios.post(`http://localhost:3002/api/login`, {email: email, password: password});
     console.log(JSON.stringify(response.data));
+    const res = await Axios.post(`http://localhost:3002/api/getPatientId`, {email: email, password: password});
+    localStorage.setItem("patientId", res.data[0].patientId);
+    console.log(res.data[0].patientId);
     setEmail("");
     setPwd("");
     setSuccess(true);
