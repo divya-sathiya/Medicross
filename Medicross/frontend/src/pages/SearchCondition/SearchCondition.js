@@ -28,18 +28,19 @@ const SearchCondition = () => {
     e.preventDefault();
     try {
       console.log(condition);
-      const response = await axios.get("http://localhost:3002/api/findconditions", {params: {condition: condition}});
+      const response = await axios.get("http://localhost:3002/api/findCondition", {params: {condition: condition}});
       
       console.log(response.data);
       
       setInfo(response.data);
-      setSuccess(true);
-      
+      if (info.length > 1) {
+        setSuccess(true);
+      }
     } catch (err) {
       if (!err.response) {
         setErrMsg("No Server Response");
       } else {
-        setErrMsg("Search Failed");
+        setErrMsg("No Conditions Found");
       }
       console.log(errMsg);
       //errRef.current.focus();
@@ -89,7 +90,7 @@ const SearchCondition = () => {
                 </form>
                 <p>
           {/*<a href="#">Go to Home</a>*/}
-          <Link to="/HandleStats"> Go to HandleStats</Link>
+          <Link to="/HealthStats"> Go to HealthStats</Link>
           </p>
             </section>
         )}

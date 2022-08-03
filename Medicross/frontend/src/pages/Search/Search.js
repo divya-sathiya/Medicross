@@ -33,7 +33,9 @@ const Search = () => {
       console.log(response.data);
       
       setDoctors(response.data);
-      setSuccess(true);
+      if (doctors.length > 1) {
+        setSuccess(true);
+      }
       
     } catch (err) {
       if (!err.response) {
