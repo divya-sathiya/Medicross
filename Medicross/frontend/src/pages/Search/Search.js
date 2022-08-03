@@ -10,7 +10,7 @@ const Search = () => {
   const [disabledField, setDisabledField] = useState(true);
 
   const [procedure, setProcedure] = useState("");
-  const [doctor, setDoctorAndTitle] = useState("");
+  const [doctors, setDoctors] = useState("");
   const [errMsg, setErrMsg] = useState("");
   const [success, setSuccess] = useState(false); //for testing purposes only and needs to be replaced with react-router
 
@@ -29,11 +29,12 @@ const Search = () => {
     try {
       console.log(procedure);
       const response = await axios.get("http://localhost:3002/api/finddoctors", {params: {procedure: procedure}});
-      //console.log(JSON.stringify(response.data));
-      //setDoctor(JSON.stringify(response.data));
-      console.log(response);
-      setDoctorAndTitle(response.data[0].doctorName + " " + response.data[0].title);
+      
+      console.log(response.data);
+      
+      setDoctors(response.data);
       setSuccess(true);
+      
     } catch (err) {
       if (!err.response) {
         setErrMsg("No Server Response");
@@ -48,15 +49,28 @@ const Search = () => {
   return (
     <>
         {success ? (
-            <section>
-            <h1>Doctors</h1>
-            <br />
-            <TextField
-                disabled={disabledField}
-                value={doctor} /> <br></br>
-              <Link to="/HealthStats"> Go to HealthStats</Link>
-            </section>
-        ) : (
+          
+          <section>
+            <h2>Doctors List</h2>
+                <table className="table" >
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Title</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                      {doctors.map(({ doctorName, title }) => (
+                              <tr>
+                                <td>{doctorName}</td>
+                                <td>{title}</td>
+                              </tr>
+                      ))}  
+                    </tbody>
+                </table>
+          </section>
+        ) : 
+        (
             <section>
                 <h1>Find Doctors</h1>
                 <form onSubmit={handleSubmit}>
@@ -75,7 +89,7 @@ const Search = () => {
                 </form>
                 <p>
           {/*<a href="#">Go to Home</a>*/}
-          <Link to="/HealthStats"> Go to HealthStats</Link>
+          <Link to="/SearchCondition"> Go to Search Condition</Link>
           </p>
             </section>
         )}
