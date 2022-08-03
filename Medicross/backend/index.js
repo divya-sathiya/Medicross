@@ -184,8 +184,6 @@ app.delete("/api/deleteUser", (require, response) => {
   });
 });
 
-<<<<<<< HEAD
-=======
 //Appointment Check in (Delete appointment)
 app.delete("/api/checkin", (require, response) => {
   const aptid = require.query.aptid; //type in procedure name "req.body.procedureName"
@@ -201,18 +199,26 @@ app.delete("/api/checkin", (require, response) => {
 
 // Keyword search
 app.get("/api/findCondition", (require, response) => {
- 
-  const keyword = require.body.keyword;
- 
-  const sqlInsert =
-    "SELECT name as conditionName, description FROM Conditions WHERE name LIKE '%keyword%' OR description LIKE '%keyword%'"; // might be CONCAT('%', keyword, '%')
-    db.query(sqlInsert, (err, result) => { //might need ?<-keyword replacement
-    if (result.length == 0) response.send("No Conditions Found");
-    else response.send(result);
-  });
+  try {
+    const { keyword } = req.query;
+
+    const results = await pool.query("SELECT name as conditionName, description FROM Conditions WHERE CONCAT(name, ' ', description) ILIKE $1", ['%${keyword}%'])
+    
+    response.send(results.rows);
+  } catch (err) {
+    console.error(err.message);
+  }
+  
+  // const keyword = require.query.body
+
+  // const sqlInsert =
+  //   "SELECT name as conditionName, description FROM Conditions WHERE CONCAT(name, ' ', description) LIKE '%keyword%'"; // might be CONCAT('%', keyword, '%')
+  //   db.query(sqlInsert, (err, result) => { //might need ?<-keyword replacement
+  //   if (result.length == 0) response.send("No Conditions Found");
+  //   else response.send(result);
+  // });
 });
 
->>>>>>> da496f80cb0e17acb98cdf070c64f23ea3c77c7c
 // AXIOS PUT EXAMPLE
 // app.put("/api/update/", (require, response) => {
 //     const movieName = require.body.movieName;
