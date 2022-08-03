@@ -184,6 +184,35 @@ app.delete("/api/deleteUser", (require, response) => {
   });
 });
 
+<<<<<<< HEAD
+=======
+//Appointment Check in (Delete appointment)
+app.delete("/api/checkin", (require, response) => {
+  const aptid = require.query.aptid; //type in procedure name "req.body.procedureName"
+  //const user = 1; //get patientId
+  const sqlInsert =
+  "DELETE FROM `Appointment` WHERE `appointmentId` = ?";
+  db.query(sqlInsert, [aptid], (err, result) => {
+    //if (result.length == 0) response.send("No Doctors Found!");
+    console.log("Checked In" + result);
+    response.send(result);
+  });
+});
+
+// Keyword search
+app.get("/api/findCondition", (require, response) => {
+ 
+  const keyword = require.body.keyword;
+ 
+  const sqlInsert =
+    "SELECT name as conditionName, description FROM Conditions WHERE name LIKE '%keyword%' OR description LIKE '%keyword%'"; // might be CONCAT('%', keyword, '%')
+    db.query(sqlInsert, (err, result) => { //might need ?<-keyword replacement
+    if (result.length == 0) response.send("No Conditions Found");
+    else response.send(result);
+  });
+});
+
+>>>>>>> da496f80cb0e17acb98cdf070c64f23ea3c77c7c
 // AXIOS PUT EXAMPLE
 // app.put("/api/update/", (require, response) => {
 //     const movieName = require.body.movieName;
