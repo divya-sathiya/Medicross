@@ -76,6 +76,19 @@ app.post("/api/register", (require, response) => {
   });
 });
 
+//PATIENT ID RETURNED SECURELY
+app.post("/api/getPatientId", (require, response) => {
+  const email = require.body.email;
+  const password = require.body.password;
+  const sqlSearch =
+    "SELECT patientId FROM Patient WHERE email = ? AND password = ?";
+  db.query(sqlSearch, [email, password], (err, result) => {
+    if (result.length == 0) response.sendStatus(401);
+    response.send(result);
+    console.log("THIS IS THE RESULT:" + result);
+  });
+});
+
 // AXIOS GET EXAMPLE
 // app.get("/api/get", (require, response) => {
 //     const sqlSelect = "SELECT * FROM movie_reviews";
@@ -95,20 +108,7 @@ app.get("/api/getProfile", (require, response) => {
   });
 });
 
-//GET PATIENT ID
-app.post("/api/getPatientId", (require, response) => {
-  const email = require.body.email;
-  const password = require.body.password;
-  const sqlSearch =
-    "SELECT patientId FROM Patient WHERE email = ? AND password = ?";
-  db.query(sqlSearch, [email, password], (err, result) => {
-    if (result.length == 0) response.sendStatus(401);
-    response.send(result);
-    console.log("THIS IS THE RESULT:" + result);
-  });
-});
-
-//AQ1
+//AQ1 USED IN SEARCH PAGE
 app.get("/api/finddoctors", (require, response) => {
   const procedureName = require.query.procedure; //type in procedure name "req.body.procedureName"
   //console.log("THIS IS ENTERED:" + procedureName);
@@ -122,7 +122,7 @@ app.get("/api/finddoctors", (require, response) => {
   });
 });
 
-//AQ2
+//AQ2 USED IN HEALTH STATS PAGE
 app.get("/api/findrisks", (require, response) => {
   const gender = "M"; //use querry to get gender
   const birthdate = "1949-08-06"; //use querry to get age
@@ -134,6 +134,18 @@ app.get("/api/findrisks", (require, response) => {
     response.send(result);
   });
 });
+
+// GET CONDITION NAME AND DESCRIPTION; FIND CONDITION PAGE
+app.get("/api/findCondition", (require, response) => {
+  const keyword = 'can';
+  const sqlInsert =
+    "SELECT name as conditionName, description FROM Conditions WHERE name LIKE /?/ OR description LIKE /?/"; // might be CONCAT('%', keyword, '%')
+    db.query(sqlInsert, [keyword], (err, result) => {
+    if (result.length == 0) response.send("No Conditions Found");
+    else response.send(result);
+  });
+});
+
 
 // AXIOS PUT EXAMPLE
 // app.put("/api/update/", (require, response) => {
