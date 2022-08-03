@@ -167,6 +167,23 @@ app.get("/api/viewstats", (require, response) => {
   );
 });
 
+//GET PATIENTS CONDITION
+app.get("/api/viewconditions", (require, response) => {
+  const patientId = require.query.id;
+  const sqlInsert =
+    "SELECT name as MyConditions FROM HasCondition INNER JOIN Conditions ON HasCondition.conditionId = Conditions.conditionId WHERE patientId = ?";
+  db.query(
+    sqlInsert,
+    [patientId],
+    (err, result) => {
+      //if (result.length == 0) response.send("Error!");
+      console.log(result);
+      response.send(result);
+    }
+  );
+});
+
+
 // AXIOS PUT EXAMPLE
 // app.put("/api/update/", (require, response) => {
 //     const movieName = require.body.movieName;
