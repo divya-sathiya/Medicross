@@ -212,7 +212,7 @@ app.get("/api/findCondition", (require, response) => {
   // const keyword = require.query.body
 
   // const sqlInsert =
-  //   "SELECT name as conditionName, description FROM Conditions WHERE CONCAT(name, ' ', description) LIKE '%keyword%'"; // might be CONCAT('%', keyword, '%')
+  //   "SELECT name as conditionName, description FROM Conditions WHERE CONCAT(name, ' ', description) ILIKE '%keyword%'"; // might be CONCAT('%', keyword, '%')
   //   db.query(sqlInsert, (err, result) => { //might need ?<-keyword replacement
   //   if (result.length == 0) response.send("No Conditions Found");
   //   else response.send(result);
