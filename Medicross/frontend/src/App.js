@@ -7,6 +7,7 @@ import Search from "./pages/Search/Search";
 import Profile from "./pages/Profile/Profile"
 import HealthStats from "./pages/HealthStats/HealthStats"
 import { Routes, Route } from "react-router-dom";
+import SearchCondition from "./pages/SearchCondition/SearchCondition";
 
 // ORIGINAL -----------------------------------
 // function App() {
@@ -101,6 +102,7 @@ function App() {
         <Route exact path = "/Profile" element={<Profile />} />
         <Route exact path = "/Search" element={<Search />}/>
         <Route exact path = "/HealthStats" element={<HealthStats />}/>
+        <Route exact path = "/SearchCondition" element={<SearchCondition />}/>
       </Routes>
     </main>
   );
