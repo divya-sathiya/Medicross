@@ -151,6 +151,22 @@ app.get("/api/findCondition", (require, response) => {
   );
 });
 
+// GET STATS IN HEALTH STATS PAGE
+app.get("/api/viewstats", (require, response) => {
+  const patientId = require.query.id;
+  const sqlInsert =
+    "CALL GetHealthScore(?);";
+  db.query(
+    sqlInsert,
+    [patientId],
+    (err, result) => {
+      //if (result.length == 0) response.send("Error!");
+      console.log(result[0]);
+      response.send(result[0]);
+    }
+  );
+});
+
 // AXIOS PUT EXAMPLE
 // app.put("/api/update/", (require, response) => {
 //     const movieName = require.body.movieName;
