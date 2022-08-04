@@ -39,11 +39,13 @@ const HealthStats = () => {
   const handleSubmitHistory = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.get("http://localhost:3002/api/viewconditions");
+      const response = await axios.get("http://localhost:3002/api/viewconditions", {
+        params: { id: id },
+      });
 
       console.log(response);
       setHistory(response.data);
-      if (update.length > 1) {
+      if (history.length > 1) {
         setSuccessHistory(true);
       }
     } catch (err) {
@@ -179,9 +181,9 @@ const HealthStats = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {history.map(({ MyCondition }) => (
+                  {history.map(({ MyConditions }) => (
                     <tr>
-                      <td>{MyCondition}</td>
+                      <td>{MyConditions}</td>
                     </tr>
                   ))}
                 </tbody>
