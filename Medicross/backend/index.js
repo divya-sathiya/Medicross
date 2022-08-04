@@ -177,8 +177,8 @@ app.get("/api/viewconditions", (require, response) => {
     [patientId],
     (err, result) => {
       //if (result.length == 0) response.send("Error!");
-      console.log(result);
-      response.send(result);
+      console.log(result[0]);
+      response.send(result[0]);
     }
   );
 });

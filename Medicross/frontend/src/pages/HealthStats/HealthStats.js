@@ -45,7 +45,7 @@ const HealthStats = () => {
 
       console.log(response);
       setHistory(response.data);
-      if (history.length > 1) {
+      if (history.length >= 1) {
         setSuccessHistory(true);
       }
     } catch (err) {
@@ -67,7 +67,7 @@ const HealthStats = () => {
 
       console.log(response);
       setStats(response.data);
-      if (stats.length > 1) {
+      if (stats.length >=1) {
         setSuccessStats(true);
       }
     } catch (err) {
