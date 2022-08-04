@@ -112,7 +112,7 @@ app.get("/api/getProfile", (require, response) => {
 app.get("/api/finddoctors", (require, response) => {
   const procedureName = require.query.procedure; //type in procedure name "req.body.procedureName"
   //console.log("THIS IS ENTERED:" + procedureName);
-  const user = 1; //get patientId
+  const user = require.query.id; //get patientId
   const sqlInsert =
     "SELECT name as doctorName, title FROM Practitioner NATURAL JOIN Insurance WHERE insProvider = (SELECT insProvider FROM Procedures NATURAL JOIN NeedProcedure NATURAL JOIN Patient WHERE name = ? AND patientId = ?) AND LOCATE(title,(SELECT description FROM Procedures WHERE name = ?)) > 0 ORDER BY name;";
   db.query(sqlInsert, [procedureName, user, procedureName], (err, result) => {

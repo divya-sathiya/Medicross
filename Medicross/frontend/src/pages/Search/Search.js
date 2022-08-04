@@ -15,6 +15,7 @@ const Search = () => {
   const [doctors, setDoctors] = useState("");
   const [errMsg, setErrMsg] = useState("");
   const [success, setSuccess] = useState(false); //for testing purposes only and needs to be replaced with react-router
+  const id = localStorage.getItem("patientId");
   const nav = useNavigate();
 
   //focus on user input
@@ -38,7 +39,7 @@ const Search = () => {
       console.log(procedure);
       const response = await axios.get(
         "http://localhost:3002/api/finddoctors",
-        { params: { procedure: procedure } }
+        { params: { procedure: procedure, id: id } }
       );
 
       console.log(response.data);
