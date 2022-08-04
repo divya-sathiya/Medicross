@@ -5,12 +5,14 @@ import EditIcon from "@material-ui/icons/Edit";
 import SaveIcon from "@material-ui/icons/Save";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
-import {Link} from 'react-router-dom';
+import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const Profile = () => {
   const userRef = useRef();
   const errRef = useRef();
   const [errMsg, setErrMsg] = useState("");
+  const nav = useNavigate();
 
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -24,10 +26,14 @@ const Profile = () => {
   const [email, setEmail] = useState("");
   const [changeMade, setChange] = useState(false);
   const [user, setUser] = useState({});
+  const id = localStorage.getItem("patientId");
 
   async function getUserInfo() {
     try {
-      const response = await axios.get("http://localhost:3002/api/getProfile");
+      console.log("PROFILE " + id);
+      const response = await axios.get("http://localhost:3002/api/getProfile", {
+        params: { id: id },
+      });
       if (response != undefined) {
         console.log(response.data[0]);
         if (response.data[0].firstName != null)
@@ -69,11 +75,25 @@ const Profile = () => {
 
   const DeleteUser = async (e) => {
     try {
-      const response = await axios.delete("http://localhost:3002/api/deleteUser", {params: {email: email}});
+      const response = await axios.delete(
+        "http://localhost:3002/api/deleteUser",
+        { params: { email: email } }
+      );
+      localStorage.clear();
+      nav("/Login");
       console.log(response);
     } catch (err) {
       console.log(errMsg);
     }
+  };
+
+  async function handleLogout() {
+    localStorage.clear();
+    nav("/Login");
+  };
+
+  async function handleNext() {
+    nav("/Search");
   };
 
   const saveEdit = async (e) => {
@@ -81,7 +101,6 @@ const Profile = () => {
     setDisabledSave(true);
     setDisabledEdit(false);
     try {
-      console.log("Edited:" + sex);
       const response = await axios.put(
         "http://localhost:3002/api/editProfile",
         {
@@ -95,7 +114,8 @@ const Profile = () => {
           insProvider: insProvider,
           insHolder: insHolder,
           insNumber: insNumber,
-        }
+        },
+        { params: { id: id } }
       );
       console.log("Response" + response.data);
     } catch (err) {
@@ -208,10 +228,27 @@ const Profile = () => {
         >
           Delete
         </Button>
-        <p>
-          {/*<a href="#">Go to Home</a>*/}
+        {/* <p>
           <Link to="/Search"> Find A Doctor</Link>
-        </p>
+        </p> */}
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <Button
+          onClick={handleNext}
+          variant="contained"
+          color="primary"
+          disabled={disabledEdit}
+        >
+          Next
+        </Button>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <Button
+          onClick={handleLogout}
+          variant="contained"
+          color="primary"
+          disabled={disabledEdit}
+        >
+          Logout
+        </Button>
       </div>
     </div>
   );
