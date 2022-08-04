@@ -1,21 +1,20 @@
 import React, { useRef, useState, useEffect } from "react";
-import "./Search.css";
+import "./SearchCondition.css";
 import axios from "axios";
 import TextField from "@mui/material/TextField";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import Button from "@mui/material/Button";
 
-const Search = () => {
+const SearchCondition = () => {
   const userRef = useRef();
   const errRef = useRef();
   const [disabledField, setDisabledField] = useState(true);
 
-  const [procedure, setProcedure] = useState("");
-  const [doctors, setDoctors] = useState("");
+  const [condition, setCondition] = useState("");
+  const [info, setInfo] = useState("");
   const [errMsg, setErrMsg] = useState("");
   const [success, setSuccess] = useState(false); //for testing purposes only and needs to be replaced with react-router
-  const id = localStorage.getItem("patientId");
   const nav = useNavigate();
 
   //focus on user input
@@ -23,36 +22,31 @@ const Search = () => {
     userRef.current.focus();
   }, []);
 
-  // useEffect(() => {
-  //   console.log(procedure);
-
-  // }, [procedure]);
-
   async function handleLogout() {
     localStorage.clear();
     nav("/Login");
-  }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      console.log(procedure);
+      console.log(condition);
       const response = await axios.get(
-        "http://localhost:3002/api/finddoctors",
-        { params: { procedure: procedure, id: id } }
+        "http://localhost:3002/api/findCondition",
+        { params: { condition: condition } }
       );
 
       console.log(response.data);
 
-      setDoctors(response.data);
-      if (doctors.length > 1) {
+      setInfo(response.data);
+      if (info.length > 1) {
         setSuccess(true);
       }
     } catch (err) {
       if (!err.response) {
         setErrMsg("No Server Response");
       } else {
-        setErrMsg("Search Failed");
+        setErrMsg("No Conditions Found");
       }
       console.log(errMsg);
       //errRef.current.focus();
@@ -63,19 +57,20 @@ const Search = () => {
     <>
       {success ? (
         <section>
-          <h2>Doctors List</h2>
+          <h2>Conditions List</h2>
           <table className="table">
             <thead>
               <tr>
-                <th>Name</th>
-                <th>Title</th>
+                <th>Condition</th>
+                <th>Description</th>
               </tr>
             </thead>
             <tbody>
-              {doctors.map(({ doctorName, title }) => (
+              {info.map(({ conditionName, description }) => (
                 <tr>
-                  <td>{doctorName}</td>
-                  <td>{title}</td>
+                  <td>{conditionName}</td>
+                  <br></br>
+                  <td>{description}</td>
                 </tr>
               ))}
             </tbody>
@@ -84,7 +79,7 @@ const Search = () => {
             <Link to="/Profile"> Go to Profile </Link>
           </p>
           <p>
-            <Link to="/SearchCondition"> Go to Search Condition</Link>
+            <Link to="/Search"> Go to Search Doctors</Link>
           </p>
           <p>
             <Link to="/HealthStats"> Go to Health Stats</Link>
@@ -92,24 +87,24 @@ const Search = () => {
         </section>
       ) : (
         <section>
-          <h1>Find Doctors</h1>
+          <h1>Find Condition</h1>
           <form onSubmit={handleSubmit}>
-            <label htmlFor="procedure">Procedure:</label>
+            <label htmlFor="condition">Condition:</label>
             <input
               type="text"
-              id="procedure"
+              id="condition"
               ref={userRef}
               autoComplete="off"
-              onChange={(e) => setProcedure(e.target.value)}
+              onChange={(e) => setCondition(e.target.value)}
               required
             />
-            <button disabled={!procedure ? true : false}>Search</button>
+            <button disabled={!condition ? true : false}>Search</button>
           </form>
           <p>
             <Link to="/Profile"> Go to Profile </Link>
           </p>
           <p>
-            <Link to="/SearchCondition"> Go to Search Condition</Link>
+            <Link to="/Search"> Go to Search Doctors</Link>
           </p>
           <p>
             <Link to="/HealthStats"> Go to Health Stats</Link>
@@ -124,4 +119,4 @@ const Search = () => {
   );
 };
 
-export default Search;
+export default SearchCondition;
