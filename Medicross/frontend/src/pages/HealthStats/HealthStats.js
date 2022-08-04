@@ -9,10 +9,10 @@ const HealthStats = () => {
   const errRef = useRef();
   const [condition, setCondition] = useState("");
   const [stats, setStats] = useState("");
-  const [update, setUpdate] = useState("");
+  const [history, setHistory] = useState("");
   const [errMsg, setErrMsg] = useState("");
   const [successCondition, setSuccessCondition] = useState(false); //for testing purposes only and needs to be replaced with react-router
-  const [successUpdate, setSuccessUpdate] = useState(false);
+  const [successHistory, setSuccessHistory] = useState(false);
   const [successStats, setSuccessStats] = useState(false);
   const id = localStorage.getItem("patientId");
 
@@ -36,18 +36,15 @@ const HealthStats = () => {
     }
   };
 
-  const handleSubmitUpdate = async (e) => {
+  const handleSubmitHistory = async (e) => {
     e.preventDefault();
     try {
-      console.log(condition);
-      const response = await axios.get(
-        "http://localhost:3002/api/updateconditions",
-        { params: { condition: condition } }
-      );
+      const response = await axios.get("http://localhost:3002/api/viewconditions");
+
       console.log(response);
-      setUpdate(response.data);
+      setHistory(response.data);
       if (update.length > 1) {
-        setSuccessUpdate(true);
+        setSuccessHistory(true);
       }
     } catch (err) {
       if (!err.response) {
@@ -163,55 +160,56 @@ const HealthStats = () => {
                     )
                   )}
                 </tbody>
-              </table>
-              <p>
-                <Link to="/Profile"> Go to Profile </Link>
-              </p>
-              <p>
-                <Link to="/Search"> Go to Search Doctors</Link>
-              </p>
-              <p>
-                <Link to="/SearchCondition"> Go to Search Condition</Link>
-              </p>
-            </section>
-          );
-        } else if (successUpdate) {
-          return (
-            <section>
-              <h1>Condition List is updated!</h1>
-              <p>
-                <Link to="/Profile"> Go to Profile </Link>
-              </p>
-              <p>
-                <Link to="/Search"> Go to Search Doctors</Link>
-              </p>
-              <p>
-                <Link to="/SearchCondition"> Go to Search Condition</Link>
-              </p>
-            </section>
-          );
-        } else {
-          return (
-            <section>
-              <form onSubmit={handleSubmitCondition}>
-                <button>View Common Conditions</button>
-              </form>
-              <form onSubmit={handleSubmitUpdate}>
-                <label htmlFor="condition">Update Condition:</label>
-                <input
-                  type="text"
-                  id="condition"
-                  ref={userRef}
-                  autoComplete="off"
-                  onChange={(e) => setCondition(e.target.value)}
-                  required
-                />
-                <button disabled={!condition ? true : false}>Update</button>
-              </form>
-              <form onSubmit={handleSubmitStats}>
-                <button>View Stats</button>
-              </form>
-              <p>
+
+                </table>
+                <p>
+                  <Link to="/Profile"> Go to Profile </Link>
+                </p>
+              </section>
+              )
+            } 
+            else if (successHistory) {
+              return (
+                <section>
+                <h1>Your Medical History</h1>
+                <table className="table">
+                <thead>
+                  <tr>
+                    <th>My Conditons</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {history.map(({ MyCondition }) => (
+                    <tr>
+                      <td>{MyCondition}</td>
+                    </tr>
+                  ))}
+                </tbody>
+                </table>
+                <p>
+                  <Link to="/Profile"> Go to Profile </Link>
+                </p>
+              </section>
+              )
+            } else {
+              return (
+                <section>
+                <form onSubmit={handleSubmitCondition}>
+                    <button>
+                        View Common Conditions
+                    </button>
+                </form>
+                <form onSubmit={handleSubmitHistory}>
+                    <button>
+                        View Medical History
+                    </button>
+                </form>
+                <form onSubmit={handleSubmitStats}>
+                    <button>
+                        View Stats
+                    </button>
+                </form>
+                <p>
                 <Link to="/Profile"> Go to Profile </Link>
               </p>
               <p>
